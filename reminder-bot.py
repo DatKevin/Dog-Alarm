@@ -21,6 +21,23 @@ def help_command(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
+def timer(update, context):
+    """Echo the user message."""
+    #update.message.text is the input 
+    numbers = ['0','1','2','3','4','5','6','7','8','9']
+    timer = []
+    for n in update.message.text:
+        if n in numbers:
+            timer.append(n)
+    if timer:
+        timer = int("".join(timer))
+        update.message.reply_text(f"Okay, will remind in {timer}")
+        wait_time = float(timer)
+        time.sleep(wait_time)
+        update.message.reply_text("Here's the reminder!")
+    else:
+        update.message.reply_text("Sorry, no time was specified")
+
 
 def main():
     """Start the bot."""
@@ -36,8 +53,9 @@ def main():
     dispatch.add_handler(CommandHandler("start", start))
     dispatch.add_handler(CommandHandler("help", help_command))
 
-    # on noncommand i.e message - echo the message on Telegram
+    # on noncommand, activates the timer Telegram
     #dispatch.add_handler(MessageHandler(Filters.text, echo))
+    dispatch.add_handler(MessageHandler(Filters.text, timer))
 
 
     # Start the Bot
