@@ -24,17 +24,22 @@ def help_command(update, context):
 def timer(update, context):
     """Echo the user message."""
     #update.message.text is the input 
-    numbers = ['0','1','2','3','4','5','6','7','8','9']
-    timer = []
-    for n in update.message.text:
-        if n in numbers:
-            timer.append(n)
+    message = update.message.text
+    username = update.message.chat.username
+    timer = [int(num) for num in message.split() if num.isdigit()][0]
     if timer:
-        timer = int("".join(timer))
-        update.message.reply_text(f"Okay, will remind in {timer}")
-        wait_time = float(timer)
-        time.sleep(wait_time)
-        update.message.reply_text("Here's the reminder!")
+        if "remind me " in message or "Remind me " in message:
+            message = message.replace("remind me ", "")            
+            message = message.replace("Remind me ", "")
+        if "minute" in message:
+            pass
+            #timer *= 60
+        if "hour in message":
+            pass
+            #timer *= 3600
+        update.message.reply_text(f"Okay, will remind you {message}")
+        time.sleep(timer)
+        update.message.reply_text(f"Hey @{username}, reminding you to {message}")
     else:
         update.message.reply_text("Sorry, no time was specified")
 
