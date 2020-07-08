@@ -22,26 +22,35 @@ def help_command(update, context):
     update.message.reply_text('Help!')
 
 def timer(update, context):
-    """Echo the user message."""
-    #update.message.text is the input 
-    message = update.message.text
-    username = update.message.chat.username
-    timer = [int(num) for num in message.split() if num.isdigit()][0]
-    if timer:
-        if "remind me " in message or "Remind me " in message:
-            message = message.replace("remind me ", "")            
-            message = message.replace("Remind me ", "")
-        if "minute" in message:
-            pass
-            #timer *= 60
-        if "hour in message":
-            pass
-            #timer *= 3600
-        update.message.reply_text(f"Okay, will remind you {message}")
-        time.sleep(timer)
-        update.message.reply_text(f"Hey @{username}, reminding you to {message}")
-    else:
-        update.message.reply_text("Sorry, no time was specified")
+    if "@dogalarm" in update.message.text:    
+        message = update.message.text
+        message = message.replace("@dogalarm ", "")
+        username = update.message.chat.username
+
+        # For Logging
+        print("Timer Started!")
+        print("Message: ", message)
+        print("From: ", username)
+        print(update.message)
+
+        #Checks what numbers are available
+        timer = [int(num) for num in message.split() if num.isdigit()]
+        if timer:
+            timer = timer[0]
+            if "remind me " in message or "Remind me " in message:
+                message = message.replace("remind me ", "")            
+                message = message.replace("Remind me ", "")
+            if "minute" in message:
+                timer *= 60
+            if "hour" in message:
+                timer *= 3600
+            print("Time: ", timer)
+            update.message.reply_text(f"Okay, will remind you {message}")
+            time.sleep(timer)
+            update.message.reply_text(f"Hey @{username}, reminding you to {message}")
+            print("Message Sent!")
+        else:
+            update.message.reply_text("Sorry, no time was specified")
 
 
 def main():
@@ -49,6 +58,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
+    # Current bot is @RerueFirstBot
     updater = Updater("953051145:AAElkgFrnYZ01tElx-7zpvDjMHHOkaQPmvQ", use_context=True)
 
     # Get the dispatcher to register handlers
@@ -59,7 +69,6 @@ def main():
     dispatch.add_handler(CommandHandler("help", help_command))
 
     # on noncommand, activates the timer Telegram
-    #dispatch.add_handler(MessageHandler(Filters.text, echo))
     dispatch.add_handler(MessageHandler(Filters.text, timer))
 
 
