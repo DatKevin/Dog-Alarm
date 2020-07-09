@@ -21,3 +21,5 @@ will not work properly while
 >@dogalarm remind me to walk the make two dozen cookies in 15 minutes 
 
 will function as intended. 
+
+![Example-screenshot](Dog-Alarm-Screenshot-1.png)
